@@ -1,0 +1,40 @@
+name: Extract app files
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get repository
+        uses: actions/checkout@v4
+
+      - name: Extract ZIP
+        run: |
+          unzip -q generator-app.zip -d extracted
+
+          if [ -f extracted/package.json ]; then
+            SRC="extracted"
+          elif [ -f extracted/generator-app/package.json ]; then
+            SRC="extracted/generator-app"
+          else
+            echo "package.json not found"
+            exit 1
+          fi
+
+          cp -a "$SRC"/. .
+          rm -rf extracted
+          rm -f generator-app.zip
+
+      - name: Save extracted files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Extract app files [skip ci]" || exit 0
+          git push
