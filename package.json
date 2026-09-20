@@ -1,0 +1,12 @@
+{
+  "name": "generator-manager",
+  "version": "1.0.0",
+  "description": "نظام إدارة اشتراكات المولدة: تسجيل دخول، قاعدة بيانات SQLite دائمة، ولوحة تحكم",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/run.js"
+  },
+  "engines": { "node": ">=22.13.0" }
+}
